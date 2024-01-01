@@ -1,0 +1,26 @@
+version: 2.1
+jobs:
+  build_and_push_image:
+    docker:
+      - image: docker:20.10.8
+    steps:
+      - checkout
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t <DOCKERHUB_USERNAME>/<DOCKERHUB_REPO>:latest .
+
+      - run:
+          name: Login to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+
+      - run:
+          name: Push Docker image to Docker Hub
+          command: |
+            docker push <DOCKERHUB_USERNAME>/<DOCKERHUB_REPO>:latest
+
+workflows:
+  build_and_push_image:
+    jobs:
+      - build_and_push_image
