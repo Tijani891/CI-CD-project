@@ -65,17 +65,17 @@ This project demonstrates the usage of Docker to build a container image of an a
           - run:
               name: Build Docker image
               command: |
-                docker build -t acme-web-app -t tijani119/acme-web-app .
+                docker build -t acme-web-app -t $DOCKERHUB_USERNAME/acme-web-app .
 
           - run:
               name: Login to Docker Hub
               command: |
-                echo $DOCKERHUB_PASSWORD | docker login -u tijani119 --password-stdin
+                echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
     
           - run:
               name: Push Docker image to Docker Hub
               command: |
-                docker push tijani119/acme-web-app:latest
+                docker push $DOCKERHUB_USERNAME/acme-web-app:latest
 
     workflows:
       build_and_push_image:
@@ -84,7 +84,7 @@ This project demonstrates the usage of Docker to build a container image of an a
 
    ```
 
-    Ensure that the `DOCKERHUB_PASSWORD` is stored securely as a CircleCI environment variable.
+    Ensure that the `DOCKERHUB_PASSWORD` and `DOCKERHUB_USERNAME` is stored securely as a CircleCI environment variable.
 
 7. **Commit and Push Changes**
 
